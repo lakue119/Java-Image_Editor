@@ -62,7 +62,7 @@ public class SomeView extends View implements View.OnTouchListener {
         bitmap = Bitmap.createScaledBitmap(bitmapImage, image_w, image_h, true);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream);
         byteArray = stream.toByteArray();
 
 

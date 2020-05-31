@@ -168,7 +168,6 @@ public class ActivityFeelingUpload extends BaseActivity {
 
     Bitmap rotatebitmap;
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

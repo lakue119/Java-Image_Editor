@@ -38,6 +38,7 @@ public class ActivityCrop extends BaseActivity {
         try {
             getWindowManager().getDefaultDisplay().getMetrics(dm);
         } catch (Exception ex) {
+            pringLog(ex.toString());
         }
         widthOfscreen = dm.widthPixels;
         heightOfScreen = dm.heightPixels;
