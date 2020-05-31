@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FellingDiary</string>
+
+
+    <string name="tedpermission_close">Close</string>
+    <string name="tedpermission_confirm">Confirm</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="tedpermission_setting">Setting</string>
+
+</resources>
