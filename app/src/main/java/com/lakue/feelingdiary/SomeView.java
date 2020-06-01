@@ -223,7 +223,8 @@ public class SomeView extends View implements View.OnTouchListener {
                         intent = new Intent(mContext, ActivityCrop.class);
                         intent.putExtra("crop", true);
                         intent.putExtra("image", byteArray);
-                        mContext.startActivity(intent);
+//                        ((BaseActivity)mContext).startActivity(intent);
+                        ((BaseActivity)mContext).startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -232,7 +233,8 @@ public class SomeView extends View implements View.OnTouchListener {
                         intent = new Intent(mContext, ActivityCrop.class);
                         intent.putExtra("crop", false);
                         intent.putExtra("image", byteArray);
-                        mContext.startActivity(intent);
+//                        mContext.startActivity(intent);
+                        ((BaseActivity)mContext).startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
 
                         bfirstpoint = false;
                         // resetView();

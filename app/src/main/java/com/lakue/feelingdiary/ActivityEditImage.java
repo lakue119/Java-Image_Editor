@@ -1,7 +1,9 @@
 package com.lakue.feelingdiary;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -14,7 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class ActivityEditImage extends AppCompatActivity {
+public class ActivityEditImage extends BaseActivity {
 
     Bitmap bitmap;
     Bitmap rotatebitmap;
@@ -103,5 +105,19 @@ public class ActivityEditImage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setContentView(new SomeView(this, rotatebitmap));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            if(requestCode == Define.REQUEST_CODE_GET_CROP_IMAGE){
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("result", data.getParcelableExtra("result"));
+                setResult(RESULT_OK, resultIntent);
+                finish();
+            }
+        }
     }
 }

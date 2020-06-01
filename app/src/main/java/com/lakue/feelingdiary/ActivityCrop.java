@@ -1,5 +1,6 @@
 package com.lakue.feelingdiary;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,14 +10,18 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 
 public class ActivityCrop extends BaseActivity {
 
     ImageView compositeImageView;
-    boolean crop;
+    Button btn_success;
 
+    boolean crop;
+    Bitmap resultingImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +49,10 @@ public class ActivityCrop extends BaseActivity {
         heightOfScreen = dm.heightPixels;
 
         compositeImageView = (ImageView) findViewById(R.id.imageview);
+        btn_success = findViewById(R.id.btn_success);
 
 
-        Bitmap resultingImage = Bitmap.createBitmap(widthOfscreen, heightOfScreen, bitmap.getConfig());
+        resultingImage = Bitmap.createBitmap(widthOfscreen, heightOfScreen, bitmap.getConfig());
 
         Canvas canvas = new Canvas(resultingImage);
         Paint paint = new Paint();
@@ -65,6 +71,17 @@ public class ActivityCrop extends BaseActivity {
         }
         canvas.drawBitmap(bitmap, 0, 0, paint);
         compositeImageView.setImageBitmap(resultingImage);
+
+        btn_success.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("result", resultingImage);
+                setResult(RESULT_OK, resultIntent);
+                finish();
+            }
+        });
+
     }
 }
 

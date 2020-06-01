@@ -1,6 +1,7 @@
 package com.lakue.feelingdiary;
 
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
@@ -20,8 +21,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -40,6 +44,7 @@ import java.util.List;
 public class ActivityFeelingUpload extends BaseActivity {
 
     Button btn_get_picture;
+    ConstraintLayout constlayout;
     ImageView iv_image;
     Boolean isCamera = false;
 
@@ -187,7 +192,7 @@ public class ActivityFeelingUpload extends BaseActivity {
 
                 Intent intent = new Intent(getApplicationContext(), ActivityEditImage.class);
                 intent.putExtra("image", dataUri.toString());
-                startActivity(intent);
+                startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
             }
         } else if (requestCode == Define.REQUEST_CODE_CAMERA) {
             Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
@@ -223,6 +228,14 @@ public class ActivityFeelingUpload extends BaseActivity {
             image = "NOTEMPTY";
 
             Glide.with(this).load(rotatebitmap).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(iv_image);
+        } else if(requestCode == Define.REQUEST_CODE_GET_CROP_IMAGE){
+
+            ImageView imageView = new ImageView(this);
+            LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            imageView.setLayoutParams(params);
+            Glide.with(this).load(data.getParcelableExtra("result")).into(imageView);
+            constlayout.addView(imageView);
+
         }
     }
 
