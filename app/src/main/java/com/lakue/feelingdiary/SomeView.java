@@ -41,12 +41,33 @@ public class SomeView extends View implements View.OnTouchListener {
     int height;
     int width;
 
-    public SomeView(Context c, Bitmap bitmapImage) {
+    public SomeView(Context c) {
         super(c);
 
         mContext = c;
 
 
+
+
+    }
+
+    public SomeView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mContext = context;
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2);
+        paint.setColor(Color.WHITE);
+
+        this.setOnTouchListener(this);
+        points = new ArrayList<Point>();
+        bfirstpoint = false;
+    }
+
+    public void addBitmap(Bitmap map){
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((AppCompatActivity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -54,12 +75,12 @@ public class SomeView extends View implements View.OnTouchListener {
         width = displayMetrics.widthPixels;
 
 //        Bitmap original = BitmapFactory.decodeResource(getResources(), R.drawable.spider_man);
-        float scale = (float) ((width/(float)bitmapImage.getWidth()));
+        float scale = (float) ((width/(float)map.getWidth()));
 
-        int image_w = (int) (bitmapImage.getWidth()*scale);
-        int image_h = (int) (bitmapImage.getHeight()*scale);
+        int image_w = (int) (map.getWidth()*scale);
+        int image_h = (int) (map.getHeight()*scale);
 
-        bitmap = Bitmap.createScaledBitmap(bitmapImage, image_w, image_h, true);
+        bitmap = Bitmap.createScaledBitmap(map, image_w, image_h, true);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream);
@@ -81,23 +102,6 @@ public class SomeView extends View implements View.OnTouchListener {
         points = new ArrayList<Point>();
 
         bfirstpoint = false;
-    }
-
-    public SomeView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        mContext = context;
-        setFocusable(true);
-        setFocusableInTouchMode(true);
-
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(2);
-        paint.setColor(Color.WHITE);
-
-        this.setOnTouchListener(this);
-        points = new ArrayList<Point>();
-        bfirstpoint = false;
-
     }
 
     public void onDraw(Canvas canvas) {

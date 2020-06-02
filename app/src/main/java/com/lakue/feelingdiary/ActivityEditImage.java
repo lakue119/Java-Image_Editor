@@ -20,12 +20,14 @@ public class ActivityEditImage extends BaseActivity {
 
     Bitmap bitmap;
     Bitmap rotatebitmap;
+    SomeView someView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_image);
 
+        someView = findViewById(R.id.someView);
 
         if(getIntent() != null){
 
@@ -60,6 +62,8 @@ public class ActivityEditImage extends BaseActivity {
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 rotatebitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                someView.addBitmap(rotatebitmap);
 
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
@@ -104,7 +108,7 @@ public class ActivityEditImage extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setContentView(new SomeView(this, rotatebitmap));
+        //setContentView(new SomeView(this, rotatebitmap));
     }
 
     @Override
@@ -114,7 +118,7 @@ public class ActivityEditImage extends BaseActivity {
         if(resultCode == RESULT_OK){
             if(requestCode == Define.REQUEST_CODE_GET_CROP_IMAGE){
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("result", data.getParcelableExtra("result"));
+                resultIntent.putExtra("result", data.getSerializableExtra("result"));
                 setResult(RESULT_OK, resultIntent);
                 finish();
             }

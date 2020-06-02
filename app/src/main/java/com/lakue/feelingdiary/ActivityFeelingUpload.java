@@ -230,11 +230,11 @@ public class ActivityFeelingUpload extends BaseActivity {
             Glide.with(this).load(rotatebitmap).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(iv_image);
         } else if(requestCode == Define.REQUEST_CODE_GET_CROP_IMAGE){
 
-            ImageView imageView = new ImageView(this);
-            LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            imageView.setLayoutParams(params);
-            Glide.with(this).load(data.getParcelableExtra("result")).into(imageView);
-            constlayout.addView(imageView);
+//            ImageView imageView = new ImageView(this);
+//            LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//            imageView.setLayoutParams(params);
+            Glide.with(this).load(data.getSerializableExtra("result")).into(iv_image);
+            //constlayout.addView(imageView);
 
         }
     }

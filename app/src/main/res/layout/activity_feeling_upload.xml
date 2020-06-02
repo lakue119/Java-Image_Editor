@@ -11,22 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
             android:layout_weight="1"
-            android:id="@+id/constlayout"
+            android:background="#00ffffff"
+            android:id="@+id/iv_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
+            android:layout_height="match_parent"/>
 
         <Button
             android:id="@+id/btn_get_picture"
