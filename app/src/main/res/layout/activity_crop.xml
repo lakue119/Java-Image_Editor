@@ -2,10 +2,13 @@
 <LinearLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/aaa"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
     <ImageView
+        android:scaleType="centerCrop"
+        android:background="#ffffff"
         android:id="@+id/imageview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

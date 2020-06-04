@@ -61,7 +61,6 @@ public class ActivityCrop extends BaseActivity {
         compositeImageView = (ImageView) findViewById(R.id.imageview);
         btn_success = findViewById(R.id.btn_success);
 
-
         resultingImage = Bitmap.createBitmap(widthOfscreen, heightOfScreen, bitmap.getConfig());
 
         Canvas canvas = new Canvas(resultingImage);
