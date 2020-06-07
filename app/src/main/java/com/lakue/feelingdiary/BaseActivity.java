@@ -11,7 +11,7 @@ public class BaseActivity extends AppCompatActivity {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
-    public void pringLog(String str){
+    public void printLog(String str){
         Log.i("BaseActivityLog", str);
     }
 }
