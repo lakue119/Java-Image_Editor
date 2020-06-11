@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#111111"
     tools:context=".ActivityFeelingUpload">
 
     <LinearLayout
@@ -11,12 +12,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_weight="1"
-            android:background="#00ffffff"
-            android:id="@+id/iv_image"
+        <com.lakue.feelingdiary.StickerView.StickerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"
+            android:id="@+id/sticker_view"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:showBorder="true"
+            app:showIcons="true">
+
+            <com.github.chrisbanes.photoview.PhotoView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                />
+
+        </com.lakue.feelingdiary.StickerView.StickerView>
+
+<!--        <FrameLayout-->
+<!--            android:id="@+id/framelayout"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"/>-->
+
+
+<!--        <ImageView-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="#00ffffff"-->
+<!--            android:id="@+id/iv_image"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"/>-->
 
         <Button
             android:id="@+id/btn_get_picture"

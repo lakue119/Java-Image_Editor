@@ -2,6 +2,7 @@ package com.lakue.feelingdiary;
 
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
@@ -11,7 +12,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,10 +27,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -31,6 +42,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lakue.feelingdiary.Permission.ModulePermission;
 import com.lakue.feelingdiary.Permission.PermissionListener;
+import com.lakue.feelingdiary.StickerView.BitmapStickerIcon;
+import com.lakue.feelingdiary.StickerView.DeleteIconEvent;
+import com.lakue.feelingdiary.StickerView.DrawableSticker;
+import com.lakue.feelingdiary.StickerView.FlipHorizontallyEvent;
+import com.lakue.feelingdiary.StickerView.StickerView;
+import com.lakue.feelingdiary.StickerView.ZoomIconEvent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,6 +55,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +63,9 @@ public class ActivityFeelingUpload extends BaseActivity {
 
     Button btn_get_picture;
     ConstraintLayout constlayout;
-    ImageView iv_image;
+    FrameLayout framelayout;
+    StickerView stickerView;
+//    ImageView iv_image;
     Boolean isCamera = false;
 
     private String imageFilePath;
@@ -59,7 +79,9 @@ public class ActivityFeelingUpload extends BaseActivity {
         setContentView(R.layout.activity_feeling_upload);
 
         btn_get_picture = findViewById(R.id.btn_get_picture);
-        iv_image = findViewById(R.id.iv_image);
+        stickerView = findViewById(R.id.sticker_view);
+//        framelayout = findViewById(R.id.framelayout);
+//        iv_image = findViewById(R.id.iv_image);
 
         btn_get_picture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +91,158 @@ public class ActivityFeelingUpload extends BaseActivity {
         });
     }
 
+    private void getCropImage(byte[] byteArray, Boolean crop){
+        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+
+        int widthOfscreen = 0;
+        int heightOfScreen = 0;
+
+        DisplayMetrics dm = new DisplayMetrics();
+        try {
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+        } catch (Exception ex) {
+            printLog(ex.toString());
+        }
+        widthOfscreen = dm.widthPixels;
+        heightOfScreen = dm.heightPixels;
+
+        Bitmap resultingImage = Bitmap.createBitmap(widthOfscreen, heightOfScreen, bitmap.getConfig());
+
+        Canvas canvas = new Canvas(resultingImage);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+
+        Path path = new Path();
+        for (int i = 0; i < SomeView.points.size(); i++) {
+            path.lineTo(SomeView.points.get(i).x, SomeView.points.get(i).y);
+        }
+        canvas.drawPath(path, paint);
+        if (crop) {
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
+        } else {
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        }
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+//        compositeImageView.setImageBitmap(resultingImage);
+
+        getMaxMinData();
+//
+//        Bitmap ori_img = BitmapFactory.decodeResource(getResources(), R.drawable.img4);
+        Log.i("QLWJRJKJ", "resultingImage.getHeight() : " + resultingImage.getHeight());
+        Log.i("QLWJRJKJ", "resultingImage.getWidth() : " + resultingImage.getWidth());
+
+        Bitmap bm1 = Bitmap.createBitmap(resultingImage, (int)minX, (int)minY, (int)maxX - (int)minX, (int)maxY - (int)minY);
+
+        //StickerView stickerView = new StickerView(getApplicationContext());
+//        stickerView.setLayoutParams(new LinearLayout.LayoutParams((int)maxX - (int)minX, (int)maxY - (int)minY));
+//        img.setImageBitmap(bm1);
+
+        BitmapStickerIcon deleteIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
+                R.drawable.sticker_ic_close_white_18dp),
+                BitmapStickerIcon.LEFT_TOP);
+        deleteIcon.setIconEvent(new DeleteIconEvent());
+
+        BitmapStickerIcon zoomIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
+                R.drawable.sticker_ic_scale_white_18dp),
+                BitmapStickerIcon.RIGHT_BOTOM);
+        zoomIcon.setIconEvent(new ZoomIconEvent());
+
+        BitmapStickerIcon flipIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
+                R.drawable.sticker_ic_flip_white_18dp),
+                BitmapStickerIcon.RIGHT_TOP);
+        flipIcon.setIconEvent(new FlipHorizontallyEvent());
+
+//        BitmapStickerIcon heartIcon =
+//                new BitmapStickerIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_white_24dp),
+//                        BitmapStickerIcon.LEFT_BOTTOM);
+//        heartIcon.setIconEvent(new HelloIconEvent());
+        Drawable drawable = new BitmapDrawable(bm1);
+
+        stickerView.setIcons(Arrays.asList(deleteIcon, zoomIcon, flipIcon));
+        stickerView.setLocked(false);
+        stickerView.setConstrained(true);
+        stickerView.addSticker(new DrawableSticker(drawable));
+
+//        img.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int parentWidth = ((ViewGroup)v.getParent()).getWidth();    // 부모 View 의 Width
+//                int parentHeight = ((ViewGroup)v.getParent()).getHeight();    // 부모 View 의 Height
+//
+//                if(event.getAction() == MotionEvent.ACTION_DOWN){
+//                    // 뷰 누름
+//                    oldXvalue = event.getX();
+//                    oldYvalue = event.getY();
+//                    Log.d("viewTest", "oldXvalue : "+ oldXvalue + " oldYvalue : " + oldYvalue);    // View 내부에서 터치한 지점의 상대 좌표값.
+//                    Log.d("viewTest", "v.getX() : "+v.getX());    // View 의 좌측 상단이 되는 지점의 절대 좌표값.
+//                    Log.d("viewTest", "RawX : " + event.getRawX() +" RawY : " + event.getRawY());    // View 를 터치한 지점의 절대 좌표값.
+//                    Log.d("viewTest", "v.getHeight : " + v.getHeight() + " v.getWidth : " + v.getWidth());    // View 의 Width, Height
+//
+//                }else if(event.getAction() == MotionEvent.ACTION_MOVE){
+//                    // 뷰 이동 중
+//                    v.setX(v.getX() + (event.getX()) - (v.getWidth()/2));
+//                    v.setY(v.getY() + (event.getY()) - (v.getHeight()/2));
+//
+//                }else if(event.getAction() == MotionEvent.ACTION_UP){
+//                    // 뷰에서 손을 뗌
+//
+//                    if(v.getX() < 0){
+//                        v.setX(0);
+//                    }else if((v.getX() + v.getWidth()) > parentWidth){
+//                        v.setX(parentWidth - v.getWidth());
+//                    }
+//
+//                    if(v.getY() < 0){
+//                        v.setY(0);
+//                    }else if((v.getY() + v.getHeight()) > parentHeight){
+//                        v.setY(parentHeight - v.getHeight());
+//                    }
+//
+//                }
+//                return true;
+//            }
+//        });
+
+//        framelayout.addView(stickerView);
+//        Glide.with(this).load(bm1).into(img);
+
+//        compositeImageView.setImageBitmap(bm1);
+    }
+
+    float oldXvalue;
+    float oldYvalue;
+
+    float maxX = Integer.MIN_VALUE;
+    float minX = Integer.MAX_VALUE;
+    float maxY = Integer.MIN_VALUE;
+    float minY = Integer.MAX_VALUE;
+
+    private void getMaxMinData(){
+        for(int i=0;i<SomeView.points.size();i++){
+            if(SomeView.points.get(i).x > maxX){
+                maxX = SomeView.points.get(i).x;
+            }
+
+            if(SomeView.points.get(i).y > maxY){
+                maxY = SomeView.points.get(i).y;
+            }
+
+            if(SomeView.points.get(i).x < minX){
+                minX = SomeView.points.get(i).x;
+            }
+
+            if(SomeView.points.get(i).y < minY){
+                minY = SomeView.points.get(i).y;
+            }
+        }
+
+        printLog("Hi maxX : " + maxX);
+        printLog("Hi maxY : " + maxY);
+        printLog("Hi minX : " + minX);
+        printLog("Hi minY : " + minY);
+    }
     void show() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("사진/앨범");
@@ -227,13 +401,17 @@ public class ActivityFeelingUpload extends BaseActivity {
 
             image = "NOTEMPTY";
 
-            Glide.with(this).load(rotatebitmap).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(iv_image);
+//            Glide.with(this).load(rotatebitmap).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(iv_image);
         } else if(requestCode == Define.REQUEST_CODE_GET_CROP_IMAGE){
+
+            byte[] byteArray = data.getByteArrayExtra("image");
+            Boolean crop = data.getBooleanExtra("crop",false);
+            getCropImage(byteArray, crop);
 
 //            ImageView imageView = new ImageView(this);
 //            LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //            imageView.setLayoutParams(params);
-            Glide.with(this).load(data.getSerializableExtra("result")).into(iv_image);
+//            Glide.with(this).load(data.getSerializableExtra("result")).into(iv_image);
             //constlayout.addView(imageView);
 
         }

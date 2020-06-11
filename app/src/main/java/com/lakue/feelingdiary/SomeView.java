@@ -23,6 +23,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class SomeView extends View implements View.OnTouchListener {
     private Paint paint;
     public static List<Point> points;
@@ -47,8 +49,6 @@ public class SomeView extends View implements View.OnTouchListener {
         mContext = c;
 
 
-
-
     }
 
     public SomeView(Context context, AttributeSet attrs) {
@@ -67,18 +67,18 @@ public class SomeView extends View implements View.OnTouchListener {
         bfirstpoint = false;
     }
 
-    public void addBitmap(Bitmap map){
+    public void addBitmap(Bitmap map) {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((AppCompatActivity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        ((AppCompatActivity) mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         height = displayMetrics.heightPixels;
         width = displayMetrics.widthPixels;
 
 //        Bitmap original = BitmapFactory.decodeResource(getResources(), R.drawable.spider_man);
-        float scale = (float) ((width/(float)map.getWidth()));
+        float scale = (float) ((width / (float) map.getWidth()));
 
-        int image_w = (int) (map.getWidth()*scale);
-        int image_h = (int) (map.getHeight()*scale);
+        int image_w = (int) (map.getWidth() * scale);
+        int image_h = (int) (map.getHeight() * scale);
 
         bitmap = Bitmap.createScaledBitmap(map, image_w, image_h, true);
 
@@ -87,14 +87,12 @@ public class SomeView extends View implements View.OnTouchListener {
         byteArray = stream.toByteArray();
 
 
-
-
         setFocusable(true);
         setFocusableInTouchMode(true);
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setPathEffect(new DashPathEffect(new float[] { 10, 20 }, 0));
+        paint.setPathEffect(new DashPathEffect(new float[]{10, 20}, 0));
         paint.setStrokeWidth(5);
         paint.setColor(Color.WHITE);
 
@@ -218,27 +216,40 @@ public class SomeView extends View implements View.OnTouchListener {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent;
+                Intent resultIntent;
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         // Yes button clicked
                         // bfirstpoint = false;
 
-                        intent = new Intent(mContext, ActivityCrop.class);
-                        intent.putExtra("crop", true);
-                        intent.putExtra("image", byteArray);
-//                        ((BaseActivity)mContext).startActivity(intent);
-                        ((BaseActivity)mContext).startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
+
+                        resultIntent = new Intent();
+                        resultIntent.putExtra("crop", true);
+                        resultIntent.putExtra("image", byteArray);
+                        ((BaseActivity)mContext).setResult(RESULT_OK, resultIntent);
+                        ((BaseActivity)mContext).finish();
+
+//                        intent = new Intent(mContext, ActivityCrop.class);
+//                        intent.putExtra("crop", true);
+//                        intent.putExtra("image", byteArray);
+////                        ((BaseActivity)mContext).startActivity(intent);
+//                        ((BaseActivity) mContext).startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
                         // No button clicked
 
-                        intent = new Intent(mContext, ActivityCrop.class);
-                        intent.putExtra("crop", false);
-                        intent.putExtra("image", byteArray);
-//                        mContext.startActivity(intent);
-                        ((BaseActivity)mContext).startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
+                        resultIntent = new Intent();
+                        resultIntent.putExtra("crop", false);
+                        resultIntent.putExtra("image", byteArray);
+                        ((BaseActivity)mContext).setResult(RESULT_OK, resultIntent);
+                        ((BaseActivity)mContext).finish();
+
+//                        intent = new Intent(mContext, ActivityCrop.class);
+//                        intent.putExtra("crop", false);
+//                        intent.putExtra("image", byteArray);
+////                        mContext.startActivity(intent);
+//                        ((BaseActivity) mContext).startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
 
                         bfirstpoint = false;
                         // resetView();
