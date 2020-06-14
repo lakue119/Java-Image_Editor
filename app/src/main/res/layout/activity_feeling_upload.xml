@@ -16,12 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/sticker_view"
+            app:bringToFrontCurrentSticker="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             app:showBorder="true"
             app:showIcons="true">
 
             <com.github.chrisbanes.photoview.PhotoView
+                android:id="@+id/photoView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
@@ -47,11 +49,31 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="match_parent"/>-->
 
-        <Button
-            android:id="@+id/btn_get_picture"
-            android:text="사진 가져오기 "
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/btn_add_picture"
+                android:text="사진 가져오기 "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/btn_add_text"
+                android:text="텍스트 가져오기"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/btn_change_background"
+                android:text="배경화면 변경"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

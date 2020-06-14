@@ -38,6 +38,7 @@ public class StickerView extends FrameLayout {
     private final boolean showIcons;
     private final boolean showBorder;
     private final boolean bringToFrontCurrentSticker;
+//    private OnPositionTopListenr onPositionTopListenr;
 
     @IntDef({
             ActionMode.NONE, ActionMode.DRAG, ActionMode.ZOOM_WITH_TWO_FINGER, ActionMode.ICON,
@@ -284,6 +285,9 @@ public class StickerView extends FrameLayout {
                 if (!onTouchDown(event)) {
                     return false;
                 }
+//                if(onPositionTopListenr != null){
+//                    onPositionTopListenr.onPositionTop();
+//                }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 oldDistance = calculateDistance(event);
@@ -852,6 +856,10 @@ public class StickerView extends FrameLayout {
         this.icons.addAll(icons);
         invalidate();
     }
+
+//    public void setOnPositionTopListenr(OnPositionTopListenr onPositionTopListenr) {
+//        this.onPositionTopListenr = onPositionTopListenr;
+//    }
 
     public interface OnStickerOperationListener {
         void onStickerAdded(@NonNull Sticker sticker);

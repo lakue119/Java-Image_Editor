@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -27,6 +28,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -40,6 +42,7 @@ import android.widget.LinearLayout.LayoutParams;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.lakue.feelingdiary.Permission.ModulePermission;
 import com.lakue.feelingdiary.Permission.PermissionListener;
 import com.lakue.feelingdiary.StickerView.BitmapStickerIcon;
@@ -47,6 +50,7 @@ import com.lakue.feelingdiary.StickerView.DeleteIconEvent;
 import com.lakue.feelingdiary.StickerView.DrawableSticker;
 import com.lakue.feelingdiary.StickerView.FlipHorizontallyEvent;
 import com.lakue.feelingdiary.StickerView.StickerView;
+import com.lakue.feelingdiary.StickerView.TextSticker;
 import com.lakue.feelingdiary.StickerView.ZoomIconEvent;
 
 import java.io.ByteArrayOutputStream;
@@ -61,7 +65,8 @@ import java.util.List;
 
 public class ActivityFeelingUpload extends BaseActivity {
 
-    Button btn_get_picture;
+    Button btn_add_picture, btn_add_text, btn_change_background;
+    PhotoView photoView;
     ConstraintLayout constlayout;
     FrameLayout framelayout;
     StickerView stickerView;
@@ -73,20 +78,48 @@ public class ActivityFeelingUpload extends BaseActivity {
 
     String image;
 
+    Boolean isBackground = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeling_upload);
 
-        btn_get_picture = findViewById(R.id.btn_get_picture);
+        btn_add_picture = findViewById(R.id.btn_add_picture);
+        btn_add_text = findViewById(R.id.btn_add_text);
+        btn_change_background = findViewById(R.id.btn_change_background);
         stickerView = findViewById(R.id.sticker_view);
+        photoView = findViewById(R.id.photoView);
 //        framelayout = findViewById(R.id.framelayout);
 //        iv_image = findViewById(R.id.iv_image);
 
-        btn_get_picture.setOnClickListener(new View.OnClickListener() {
+        btn_add_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isBackground = false;
                 show();
+            }
+        });
+
+        btn_change_background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isBackground = true;
+                show();
+            }
+        });
+
+
+        btn_add_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final TextSticker sticker = new TextSticker(getApplicationContext());
+                sticker.setText("Hello, world!");
+                sticker.setTextColor(Color.BLUE);
+                sticker.setTextAlign(Layout.Alignment.ALIGN_CENTER);
+                sticker.resizeText();
+
+                stickerView.addSticker(sticker);
             }
         });
     }
@@ -135,6 +168,8 @@ public class ActivityFeelingUpload extends BaseActivity {
 
         Bitmap bm1 = Bitmap.createBitmap(resultingImage, (int)minX, (int)minY, (int)maxX - (int)minX, (int)maxY - (int)minY);
 
+        Log.i("QLWJRJKJ", "bm1.getHeight() : " + bm1.getHeight());
+        Log.i("QLWJRJKJ", "bm1.getWidth() : " + bm1.getWidth());
         //StickerView stickerView = new StickerView(getApplicationContext());
 //        stickerView.setLayoutParams(new LinearLayout.LayoutParams((int)maxX - (int)minX, (int)maxY - (int)minY));
 //        img.setImageBitmap(bm1);
@@ -214,12 +249,18 @@ public class ActivityFeelingUpload extends BaseActivity {
     float oldXvalue;
     float oldYvalue;
 
-    float maxX = Integer.MIN_VALUE;
-    float minX = Integer.MAX_VALUE;
-    float maxY = Integer.MIN_VALUE;
-    float minY = Integer.MAX_VALUE;
+    float maxX;
+    float minX;
+    float maxY;
+    float minY;
 
     private void getMaxMinData(){
+
+        maxX = Integer.MIN_VALUE;
+        minX = Integer.MAX_VALUE;
+        maxY = Integer.MIN_VALUE;
+        minY = Integer.MAX_VALUE;
+
         for(int i=0;i<SomeView.points.size();i++){
             if(SomeView.points.get(i).x > maxX){
                 maxX = SomeView.points.get(i).x;
@@ -354,54 +395,59 @@ public class ActivityFeelingUpload extends BaseActivity {
 
 
         if (requestCode == Define.REQUEST_CODE_ALBUM) {
-            Uri dataUri = data.getData();
+            if(isBackground){
+                Uri dataUri = data.getData();
 
-            //image = data.getStringExtra("editimage");
-            if (dataUri != null) {
-                image = getRealpath(dataUri);
-//                Glide.with(this).load(image).into(iv_image);
-
-
-//                Bitmap bitmap = imagePathToBitmap(image);
-
-                Intent intent = new Intent(getApplicationContext(), ActivityEditImage.class);
-                intent.putExtra("image", dataUri.toString());
-                startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
-            }
-        } else if (requestCode == Define.REQUEST_CODE_CAMERA) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
-            ExifInterface exif = null;
-
-            try {
-                exif = new ExifInterface(imageFilePath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            int exifOrientation;
-            int exifDegree;
-
-            if (exif != null) {
-                exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                exifDegree = exifOrientationToDegrees(exifOrientation);
+                Glide.with(this).load(dataUri).into(photoView);
             } else {
-                exifDegree = 0;
+                Uri dataUri = data.getData();
+
+                if (dataUri != null) {
+                    image = getRealpath(dataUri);
+
+                    Intent intent = new Intent(getApplicationContext(), ActivityEditImage.class);
+                    intent.putExtra("image", dataUri.toString());
+                    startActivityForResult(intent, Define.REQUEST_CODE_GET_CROP_IMAGE);
+                }
             }
 
-            rotatebitmap = rotate(bitmap, exifDegree);
+        } else if (requestCode == Define.REQUEST_CODE_CAMERA) {
+            if(isBackground){
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            rotatebitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            } else {
+                Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
+                ExifInterface exif = null;
 
-            Log.i("AAAAAAAAAAAAAAAA", "imageFilePath" + imageFilePath);
+                try {
+                    exif = new ExifInterface(imageFilePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            byte[] currentData = stream.toByteArray();
+                int exifOrientation;
+                int exifDegree;
 
-            new SaveImageTask().execute(currentData);
+                if (exif != null) {
+                    exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                    exifDegree = exifOrientationToDegrees(exifOrientation);
+                } else {
+                    exifDegree = 0;
+                }
 
-            image = "NOTEMPTY";
+                rotatebitmap = rotate(bitmap, exifDegree);
 
-//            Glide.with(this).load(rotatebitmap).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(iv_image);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                rotatebitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                Log.i("AAAAAAAAAAAAAAAA", "imageFilePath" + imageFilePath);
+
+                byte[] currentData = stream.toByteArray();
+
+                new SaveImageTask().execute(currentData);
+
+                image = "NOTEMPTY";
+            }
+
         } else if(requestCode == Define.REQUEST_CODE_GET_CROP_IMAGE){
 
             byte[] byteArray = data.getByteArrayExtra("image");
