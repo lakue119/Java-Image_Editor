@@ -114,7 +114,7 @@ public class ActivityFeelingUpload extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ActivityPaintBrush.class);
-                startActivity(intent);
+                startActivityForResult(intent, Define.REQUEST_CODE_PAINT_BRUSH);
             }
         });
 
@@ -132,7 +132,7 @@ public class ActivityFeelingUpload extends BaseActivity {
         });
     }
 
-    private void getCropImage(byte[] byteArray, Boolean crop){
+    private void getCropImage(byte[] byteArray, Boolean crop, List<Point> points){
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
 
@@ -155,8 +155,8 @@ public class ActivityFeelingUpload extends BaseActivity {
         paint.setAntiAlias(true);
 
         Path path = new Path();
-        for (int i = 0; i < SomeView.points.size(); i++) {
-            path.lineTo(SomeView.points.get(i).x, SomeView.points.get(i).y);
+        for (int i = 0; i < points.size(); i++) {
+            path.lineTo(points.get(i).x, points.get(i).y);
         }
         canvas.drawPath(path, paint);
         if (crop) {
@@ -168,7 +168,7 @@ public class ActivityFeelingUpload extends BaseActivity {
         canvas.drawBitmap(bitmap, 0, 0, paint);
 //        compositeImageView.setImageBitmap(resultingImage);
 
-        getMaxMinData();
+        getMaxMinData(points);
 //
 //        Bitmap ori_img = BitmapFactory.decodeResource(getResources(), R.drawable.img4);
         Log.i("QLWJRJKJ", "resultingImage.getHeight() : " + resultingImage.getHeight());
@@ -254,6 +254,38 @@ public class ActivityFeelingUpload extends BaseActivity {
 //        compositeImageView.setImageBitmap(bm1);
     }
 
+    private void getCropImage(String file, List<Point> points){
+//        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        Bitmap bitmap = BitmapFactory.decodeFile(file);
+
+        getMaxMinData(points);
+
+        Bitmap bm1 = Bitmap.createBitmap(bitmap, (int)minX, (int)minY, (int)maxX - (int)minX, (int)maxY - (int)minY);
+
+        BitmapStickerIcon deleteIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
+                R.drawable.sticker_ic_close_white_18dp),
+                BitmapStickerIcon.LEFT_TOP);
+        deleteIcon.setIconEvent(new DeleteIconEvent());
+
+        BitmapStickerIcon zoomIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
+                R.drawable.sticker_ic_scale_white_18dp),
+                BitmapStickerIcon.RIGHT_BOTOM);
+        zoomIcon.setIconEvent(new ZoomIconEvent());
+
+        BitmapStickerIcon flipIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
+                R.drawable.sticker_ic_flip_white_18dp),
+                BitmapStickerIcon.RIGHT_TOP);
+        flipIcon.setIconEvent(new FlipHorizontallyEvent());
+
+
+        Drawable drawable = new BitmapDrawable(bm1);
+
+        stickerView.setIcons(Arrays.asList(deleteIcon, zoomIcon, flipIcon));
+        stickerView.setLocked(false);
+        stickerView.setConstrained(true);
+        stickerView.addSticker(new DrawableSticker(drawable));
+    }
+
     float oldXvalue;
     float oldYvalue;
 
@@ -262,28 +294,28 @@ public class ActivityFeelingUpload extends BaseActivity {
     float maxY;
     float minY;
 
-    private void getMaxMinData(){
+    private void getMaxMinData(List<Point> points){
 
         maxX = Integer.MIN_VALUE;
         minX = Integer.MAX_VALUE;
         maxY = Integer.MIN_VALUE;
         minY = Integer.MAX_VALUE;
 
-        for(int i=0;i<SomeView.points.size();i++){
-            if(SomeView.points.get(i).x > maxX){
-                maxX = SomeView.points.get(i).x;
+        for(int i=0;i<points.size();i++){
+            if(points.get(i).x > maxX){
+                maxX = points.get(i).x;
             }
 
-            if(SomeView.points.get(i).y > maxY){
-                maxY = SomeView.points.get(i).y;
+            if(points.get(i).y > maxY){
+                maxY = points.get(i).y;
             }
 
-            if(SomeView.points.get(i).x < minX){
-                minX = SomeView.points.get(i).x;
+            if(points.get(i).x < minX){
+                minX = points.get(i).x;
             }
 
-            if(SomeView.points.get(i).y < minY){
-                minY = SomeView.points.get(i).y;
+            if(points.get(i).y < minY){
+                minY = points.get(i).y;
             }
         }
 
@@ -460,14 +492,11 @@ public class ActivityFeelingUpload extends BaseActivity {
 
             byte[] byteArray = data.getByteArrayExtra("image");
             Boolean crop = data.getBooleanExtra("crop",false);
-            getCropImage(byteArray, crop);
-
-//            ImageView imageView = new ImageView(this);
-//            LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//            imageView.setLayoutParams(params);
-//            Glide.with(this).load(data.getSerializableExtra("result")).into(iv_image);
-            //constlayout.addView(imageView);
-
+            getCropImage(byteArray, crop, SomeView.points);
+        } else if(requestCode == Define.REQUEST_CODE_PAINT_BRUSH){
+//            byte[] byteArray = data.getByteArrayExtra("image");
+            String filePath = data.getStringExtra("image");
+            getCropImage(filePath, MyPaintView.points);
         }
     }
 

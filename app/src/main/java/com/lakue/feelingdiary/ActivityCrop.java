@@ -197,38 +197,38 @@
 ////        }
 ////    }
 ////
-////    private File saveBitmapToJpeg(Bitmap bitmap) {
-////
-////        //내부저장소 캐시 경로를 받아옵니다.
-////        File storage = getCacheDir();
-////        SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd_HHmmss");
-////        Date date = new Date();
-////        //저장할 파일 이름
-////        String fileName = date + ".png";
-////
-////        //storage 에 파일 인스턴스를 생성합니다.
-////        File tempFile = new File(storage, fileName);
-////
-////        try {
-////
-////            // 자동으로 빈 파일을 생성합니다.
-////            tempFile.createNewFile();
-////
-////            // 파일을 쓸 수 있는 스트림을 준비합니다.
-////            FileOutputStream out = new FileOutputStream(tempFile);
-////
-////            // compress 함수를 사용해 스트림에 비트맵을 저장합니다.
-////            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-////
-////            // 스트림 사용후 닫아줍니다.
-////            out.close();
-////
-////        } catch (FileNotFoundException e) {
-////            Log.e("MyTag","FileNotFoundException : " + e.getMessage());
-////        } catch (IOException e) {
-////            Log.e("MyTag","IOException : " + e.getMessage());
-////        }
-////        return tempFile;
-////    }
+//    private File saveBitmapToJpeg(Bitmap bitmap) {
+//
+//        //내부저장소 캐시 경로를 받아옵니다.
+//        File storage = getCacheDir();
+//        SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd_HHmmss");
+//        Date date = new Date();
+//        //저장할 파일 이름
+//        String fileName = date + ".png";
+//
+//        //storage 에 파일 인스턴스를 생성합니다.
+//        File tempFile = new File(storage, fileName);
+//
+//        try {
+//
+//            // 자동으로 빈 파일을 생성합니다.
+//            tempFile.createNewFile();
+//
+//            // 파일을 쓸 수 있는 스트림을 준비합니다.
+//            FileOutputStream out = new FileOutputStream(tempFile);
+//
+//            // compress 함수를 사용해 스트림에 비트맵을 저장합니다.
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+//
+//            // 스트림 사용후 닫아줍니다.
+//            out.close();
+//
+//        } catch (FileNotFoundException e) {
+//            Log.e("MyTag","FileNotFoundException : " + e.getMessage());
+//        } catch (IOException e) {
+//            Log.e("MyTag","IOException : " + e.getMessage());
+//        }
+//        return tempFile;
+//    }
 //}
 //

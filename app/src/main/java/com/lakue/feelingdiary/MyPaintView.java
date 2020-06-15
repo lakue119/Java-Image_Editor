@@ -8,10 +8,14 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyPaintView extends View {
 
@@ -20,6 +24,8 @@ public class MyPaintView extends View {
     Canvas mCanvas;
     Bitmap mBitmap;
     Paint mPaint;
+
+    public static List<Point> points;
 
     float lastX;
     float lastY;
@@ -44,9 +50,12 @@ public class MyPaintView extends View {
     }
 
     private void init(Context context) {
+
+        points = new ArrayList<Point>();
+
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.BLACK);
+        mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.STROKE);
 
         mPaint.setStrokeJoin(Paint.Join.ROUND);
@@ -62,7 +71,7 @@ public class MyPaintView extends View {
         Bitmap img = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas();
         canvas.setBitmap(img);
-//        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.TRANSPARENT);
 
         mBitmap = img;
         mCanvas = canvas;
@@ -100,7 +109,14 @@ public class MyPaintView extends View {
 
                 return true;
             case MotionEvent.ACTION_MOVE:
+                Point point = new Point();
+                point.x = (int) event.getX();
+                point.y = (int) event.getY();
+
                 rect = touchMove(event);
+
+                points.add(point);
+//                Log.e("KALWJKL", "X : " + event.getX() + "    /      Y : " + event.getY());
                 if (rect != null) {
                     invalidate(rect);
                 }
@@ -191,4 +207,8 @@ public class MyPaintView extends View {
                 break;
         }
     }
+
+
 }
+
+
