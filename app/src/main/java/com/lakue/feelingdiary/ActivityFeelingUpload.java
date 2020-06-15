@@ -65,7 +65,7 @@ import java.util.List;
 
 public class ActivityFeelingUpload extends BaseActivity {
 
-    Button btn_add_picture, btn_add_text, btn_change_background;
+    Button btn_add_picture, btn_add_text, btn_change_background, btn_paint_brush;
     PhotoView photoView;
     ConstraintLayout constlayout;
     FrameLayout framelayout;
@@ -90,6 +90,7 @@ public class ActivityFeelingUpload extends BaseActivity {
         btn_change_background = findViewById(R.id.btn_change_background);
         stickerView = findViewById(R.id.sticker_view);
         photoView = findViewById(R.id.photoView);
+        btn_paint_brush = findViewById(R.id.btn_paint_brush);
 //        framelayout = findViewById(R.id.framelayout);
 //        iv_image = findViewById(R.id.iv_image);
 
@@ -109,6 +110,13 @@ public class ActivityFeelingUpload extends BaseActivity {
             }
         });
 
+        btn_paint_brush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ActivityPaintBrush.class);
+                startActivity(intent);
+            }
+        });
 
         btn_add_text.setOnClickListener(new View.OnClickListener() {
             @Override

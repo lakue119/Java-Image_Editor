@@ -59,19 +59,26 @@
                 android:id="@+id/btn_add_picture"
                 android:text="사진 가져오기 "
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
             <Button
                 android:layout_weight="1"
                 android:id="@+id/btn_add_text"
                 android:text="텍스트 가져오기"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
             <Button
                 android:layout_weight="1"
                 android:id="@+id/btn_change_background"
                 android:text="배경화면 변경"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/btn_paint_brush"
+                android:text="그리기"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 

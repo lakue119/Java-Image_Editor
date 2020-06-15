@@ -17,11 +17,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.lakue.feelingdiary.ActivityEditImage"></activity>
-        <activity android:name="com.lakue.feelingdiary.ActivityCrop" />
-        <activity android:name="com.lakue.feelingdiary.Permission.PermissionActivity" />
-        <activity android:name="com.lakue.feelingdiary.ActivityFeelingUpload" />
-        <activity android:name="com.lakue.feelingdiary.MainActivity">
+        <activity android:name=".ActivityTest"></activity>
+        <activity
+            android:name=".ActivityPaintBrush"
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".ActivityEditImage" />
+        <activity android:name=".ActivityCrop" />
+        <activity android:name=".Permission.PermissionActivity" />
+        <activity android:name=".ActivityFeelingUpload" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
