@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.lakue.feelingdiary"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     dependencies { implementation 'com.github.yukuku:ambilwarna:2.0.1' }
+    implementation 'com.xw.repo:bubbleseekbar:3.20-lite'
 }
 repositories {
     mavenCentral()

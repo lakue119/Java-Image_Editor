@@ -50,35 +50,55 @@
 <!--            android:layout_height="match_parent"/>-->
 
         <LinearLayout
+            android:padding="8dp"
+            android:background="@color/colorWhite"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/btn_add_picture"
+            <ImageView
+                android:padding="3dp"
+                android:src="@drawable/ic_add_a_photo_24px"
+                android:id="@+id/iv_add_picture"
                 android:text="사진 가져오기 "
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/btn_add_text"
-                android:text="텍스트 가져오기"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/btn_change_background"
-                android:text="배경화면 변경"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_width="36dp"
+                android:layout_height="36dp"/>
 
-            <Button
-                android:layout_weight="1"
-                android:id="@+id/btn_paint_brush"
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_title_24px"
+                android:id="@+id/iv_add_text"
+                android:text="텍스트 가져오기"
+                android:layout_width="36dp"
+                android:layout_height="36dp"/>
+
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_image_24px"
+                android:id="@+id/iv_change_background"
+                android:text="배경화면 변경"
+                android:layout_width="36dp"
+                android:layout_height="36dp"/>
+
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_create_24px"
+                android:id="@+id/iv_paint_brush"
                 android:text="그리기"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_width="36dp"
+                android:layout_height="36dp"/>
+
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_tag_faces_24px"
+                android:id="@+id/iv_imoge"
+                android:text="이모지"
+                android:layout_width="36dp"
+                android:layout_height="36dp"/>
 
         </LinearLayout>
 

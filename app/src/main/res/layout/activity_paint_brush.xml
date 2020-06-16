@@ -4,43 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/transparent"
-    tools:context=".ActivityPaintBrush" >
+    tools:context=".ActivityPaintBrush">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/colorPickerButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="색상선택" />
-
-            <Button
-                android:id="@+id/thickPickerButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="굵기입력" />
-
-            <Button
-                android:id="@+id/move"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="이동" />
-
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll_footer"
+            android:orientation="vertical"></LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
+            android:padding="8dp"
+            android:id="@+id/ll_brush"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/ll_footer"
             android:orientation="horizontal">
 
             <RadioGroup
@@ -71,20 +58,82 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="1"
-            android:id="@+id/container"
+            android:visibility="gone"
+            android:id="@+id/ll_bold_slider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ll_footer"
+            android:padding="20dp">
 
-<!--        <ImageView-->
-<!--            android:background="#00ff00"-->
-<!--            android:layout_weight="1"-->
-<!--            android:id="@+id/imageView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical"></ImageView>-->
-    </LinearLayout>
+            <com.xw.repo.BubbleSeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bsb_bubble_color="@color/colorWhite"
+                app:bsb_bubble_text_color="@color/colorPrimaryDark"
+                app:bsb_max="100"
+                app:bsb_min="0"
+                app:bsb_progress="0"
+                app:bsb_second_track_color="@color/colorRed"
+                app:bsb_section_count="5"
+                app:bsb_section_text_position="bottom_sides"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="true"
+                app:bsb_show_section_text="true"
+                app:bsb_show_thumb_text="true"
+                app:bsb_track_color="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_footer"
+            android:layout_alignParentBottom="true"
+            android:padding="8dp"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:padding="3dp"
+                android:id="@+id/iv_color_picker"
+                android:src="@drawable/ic_border_color_24px"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="색상선택" />
+
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_format_bold_24px"
+                android:id="@+id/iv_border"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="굵기입력" />
+
+            <ImageView
+                android:src="@drawable/ic_brush_24px"
+                android:layout_marginLeft="4dp"
+                android:padding="3dp"
+                android:id="@+id/iv_brush"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="이동" />
+
+            <ImageView
+                android:src="@drawable/ic_queue_play_next_24px"
+                android:layout_marginLeft="4dp"
+                android:padding="3dp"
+                android:id="@+id/iv_save"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="이동" />
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
 
 
 </LinearLayout>

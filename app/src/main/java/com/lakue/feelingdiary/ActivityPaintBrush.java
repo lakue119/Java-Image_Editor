@@ -9,9 +9,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +23,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.xw.repo.BubbleSeekBar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,6 +40,17 @@ public class ActivityPaintBrush extends AppCompatActivity {
     MyPaintView view;
     int tColor,n=0;
 
+    ImageView iv_color_picker;
+    ImageView iv_border;
+    ImageView iv_brush;
+    ImageView iv_save;
+    RadioButton rBtn1;
+    RadioButton rBtn2;
+    RadioButton rBtn3;
+    LinearLayout ll_bold_slider;
+    LinearLayout ll_brush;
+    BubbleSeekBar seekbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +64,12 @@ public class ActivityPaintBrush extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         container.addView(view, params);
 
-        RadioButton rBtn1 = findViewById(R.id.radioButton);
-        RadioButton rBtn2 = findViewById(R.id.radioButton2);
-        RadioButton rBtn3 = findViewById(R.id.radioButton3);
+        rBtn1 = findViewById(R.id.radioButton);
+        rBtn2 = findViewById(R.id.radioButton2);
+        rBtn3 = findViewById(R.id.radioButton3);
+        ll_bold_slider = findViewById(R.id.ll_bold_slider);
+        seekbar = findViewById(R.id.seekbar);
+        ll_brush = findViewById(R.id.ll_brush);
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -72,10 +89,11 @@ public class ActivityPaintBrush extends AppCompatActivity {
             }
         });
 
-        Button btn=findViewById(R.id.colorPickerButton);
-        Button btn2=findViewById(R.id.thickPickerButton);
-        Button move = findViewById(R.id.move);
-        move.setOnClickListener(new View.OnClickListener() {
+        iv_color_picker=findViewById(R.id.iv_color_picker);
+        iv_border=findViewById(R.id.iv_border);
+        iv_brush = findViewById(R.id.iv_brush);
+        iv_save = findViewById(R.id.iv_save);
+        iv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -106,16 +124,61 @@ public class ActivityPaintBrush extends AppCompatActivity {
             }
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        iv_color_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openColorPicker();
             }
         });
-        btn2.setOnClickListener(new View.OnClickListener() {
+
+        iv_brush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                show();
+                ll_brush.setVisibility(View.VISIBLE);
+
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        ll_brush.setVisibility(View.GONE);
+                    }
+                }, 3000);// 0.5초 정도 딜레이를 준 후 시작
+            }
+        });
+
+        iv_border.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_bold_slider.setVisibility(View.VISIBLE);
+
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        ll_bold_slider.setVisibility(View.GONE);
+                    }
+                }, 3000);// 0.5초 정도 딜레이를 준 후 시작
+
+//                show();
+            }
+        });
+
+        seekbar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+                view.setStrokeWidth(progress);
+            }
+
+            @Override
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+
+            }
+
+            @Override
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+
             }
         });
     }
@@ -176,6 +239,7 @@ public class ActivityPaintBrush extends AppCompatActivity {
 
                     }
                 });
+
         builder.show();
 
     }
@@ -191,6 +255,7 @@ public class ActivityPaintBrush extends AppCompatActivity {
             public void onOk(AmbilWarnaDialog dialog, int color) {
                 Toast.makeText(getApplicationContext(),""+tColor,Toast.LENGTH_LONG).show();
                 view.setColor(color);
+                iv_color_picker.setColorFilter(color);
             }
         });
         colorPicker.show();

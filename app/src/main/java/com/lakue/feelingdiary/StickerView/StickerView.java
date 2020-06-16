@@ -354,6 +354,10 @@ public class StickerView extends FrameLayout {
             if (onStickerOperationListener != null){
                 onStickerOperationListener.onStickerTouchedDown(handlingSticker);
             }
+        } else {
+            currentMode = ActionMode.NONE;
+            currentIcon = null;
+            invalidate();
         }
 
         if (currentIcon == null && handlingSticker == null) {

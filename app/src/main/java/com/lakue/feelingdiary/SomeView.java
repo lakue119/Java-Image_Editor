@@ -43,6 +43,8 @@ public class SomeView extends View implements View.OnTouchListener {
     int height;
     int width;
 
+    int max_height = 0;
+
     public SomeView(Context c) {
         super(c);
 
@@ -82,9 +84,13 @@ public class SomeView extends View implements View.OnTouchListener {
 
         bitmap = Bitmap.createScaledBitmap(map, image_w, image_h, true);
 
+        //이미지 height 사이즈
+        max_height = bitmap.getHeight();
+
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream);
         byteArray = stream.toByteArray();
+
 
 
         setFocusable(true);
@@ -125,12 +131,17 @@ public class SomeView extends View implements View.OnTouchListener {
     }
 
     public boolean onTouch(View view, MotionEvent event) {
-        // if(event.getAction() != MotionEvent.ACTION_DOWN)
-        // return super.onTouchEvent(event);
-
         Point point = new Point();
         point.x = (int) event.getX();
         point.y = (int) event.getY();
+
+        //아미지 사이즈를 벗어나면, 이미지의 최대 사이즈만큼 point.y값을 가짐
+        if(point.y > max_height){
+            point.y = max_height;
+        }
+
+        Log.i("QLKWRJLQKQWR", "this.height : " + this.height);
+        Log.i("QLKWRJLQKQWR", "this.width : " + this.width);
 
         if (flgPathDraw) {
 

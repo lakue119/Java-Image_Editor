@@ -65,7 +65,7 @@ import java.util.List;
 
 public class ActivityFeelingUpload extends BaseActivity {
 
-    Button btn_add_picture, btn_add_text, btn_change_background, btn_paint_brush;
+    ImageView iv_add_picture, iv_add_text, iv_change_background, iv_paint_brush;
     PhotoView photoView;
     ConstraintLayout constlayout;
     FrameLayout framelayout;
@@ -85,16 +85,16 @@ public class ActivityFeelingUpload extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feeling_upload);
 
-        btn_add_picture = findViewById(R.id.btn_add_picture);
-        btn_add_text = findViewById(R.id.btn_add_text);
-        btn_change_background = findViewById(R.id.btn_change_background);
+        iv_add_picture = findViewById(R.id.iv_add_picture);
+        iv_add_text = findViewById(R.id.iv_add_text);
+        iv_change_background = findViewById(R.id.iv_change_background);
         stickerView = findViewById(R.id.sticker_view);
         photoView = findViewById(R.id.photoView);
-        btn_paint_brush = findViewById(R.id.btn_paint_brush);
+        iv_paint_brush = findViewById(R.id.iv_paint_brush);
 //        framelayout = findViewById(R.id.framelayout);
 //        iv_image = findViewById(R.id.iv_image);
 
-        btn_add_picture.setOnClickListener(new View.OnClickListener() {
+        iv_add_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isBackground = false;
@@ -102,7 +102,7 @@ public class ActivityFeelingUpload extends BaseActivity {
             }
         });
 
-        btn_change_background.setOnClickListener(new View.OnClickListener() {
+        iv_change_background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isBackground = true;
@@ -110,7 +110,7 @@ public class ActivityFeelingUpload extends BaseActivity {
             }
         });
 
-        btn_paint_brush.setOnClickListener(new View.OnClickListener() {
+        iv_paint_brush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ActivityPaintBrush.class);
@@ -118,7 +118,7 @@ public class ActivityFeelingUpload extends BaseActivity {
             }
         });
 
-        btn_add_text.setOnClickListener(new View.OnClickListener() {
+        iv_add_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final TextSticker sticker = new TextSticker(getApplicationContext());
@@ -260,7 +260,7 @@ public class ActivityFeelingUpload extends BaseActivity {
 
         getMaxMinData(points);
 
-        Bitmap bm1 = Bitmap.createBitmap(bitmap, (int)minX, (int)minY, (int)maxX - (int)minX, (int)maxY - (int)minY);
+        Bitmap bm1 = Bitmap.createBitmap(bitmap, (int)minX-40, (int)minY-40, (int)maxX - (int)minX +80, (int)maxY - (int)minY+80);
 
         BitmapStickerIcon deleteIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
                 R.drawable.sticker_ic_close_white_18dp),
