@@ -355,9 +355,7 @@ public class StickerView extends FrameLayout {
                 onStickerOperationListener.onStickerTouchedDown(handlingSticker);
             }
         } else {
-            currentMode = ActionMode.NONE;
-            currentIcon = null;
-            invalidate();
+            hideCurrentIcon();
         }
 
         if (currentIcon == null && handlingSticker == null) {
@@ -365,6 +363,12 @@ public class StickerView extends FrameLayout {
         }
         invalidate();
         return true;
+    }
+
+    public void hideCurrentIcon(){
+        currentMode = ActionMode.NONE;
+        currentIcon = null;
+        invalidate();
     }
 
     protected void onTouchUp(@NonNull MotionEvent event) {

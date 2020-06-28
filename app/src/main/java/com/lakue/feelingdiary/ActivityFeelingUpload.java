@@ -130,6 +130,14 @@ public class ActivityFeelingUpload extends BaseActivity {
                 stickerView.addSticker(sticker);
             }
         });
+
+        photoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                stickerView.hideCurrentIcon();
+                return false;
+            }
+        });
     }
 
     private void getCropImage(byte[] byteArray, Boolean crop, List<Point> points){

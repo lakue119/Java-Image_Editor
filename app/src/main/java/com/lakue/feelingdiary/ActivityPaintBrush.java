@@ -44,6 +44,7 @@ public class ActivityPaintBrush extends AppCompatActivity {
     ImageView iv_border;
     ImageView iv_brush;
     ImageView iv_save;
+    ImageView iv_eraser;
     RadioButton rBtn1;
     RadioButton rBtn2;
     RadioButton rBtn3;
@@ -70,6 +71,7 @@ public class ActivityPaintBrush extends AppCompatActivity {
         ll_bold_slider = findViewById(R.id.ll_bold_slider);
         seekbar = findViewById(R.id.seekbar);
         ll_brush = findViewById(R.id.ll_brush);
+        iv_eraser = findViewById(R.id.iv_eraser);
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -124,9 +126,17 @@ public class ActivityPaintBrush extends AppCompatActivity {
             }
         });
 
+        iv_eraser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.setEraser(true);
+            }
+        });
+
         iv_color_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                view.setEraser(false);
                 openColorPicker();
             }
         });
@@ -134,6 +144,10 @@ public class ActivityPaintBrush extends AppCompatActivity {
         iv_brush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                view.setEraser(false);
+                if(ll_bold_slider.isShown()){
+                    ll_bold_slider.setVisibility(View.GONE);
+                }
                 ll_brush.setVisibility(View.VISIBLE);
 
                 new Handler().postDelayed(new Runnable()
@@ -150,6 +164,9 @@ public class ActivityPaintBrush extends AppCompatActivity {
         iv_border.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(ll_brush.isShown()){
+                    ll_brush.setVisibility(View.GONE);
+                }
                 ll_bold_slider.setVisibility(View.VISIBLE);
 
                 new Handler().postDelayed(new Runnable()

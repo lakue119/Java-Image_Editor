@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -64,6 +66,15 @@ public class MyPaintView extends View {
 
         this.lastX = -1;
         this.lastY = -1;
+    }
+
+    public void setEraser(boolean isEraser) {
+//        this.isEraser = isEraser;
+        if (isEraser) {
+            mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        } else {
+            mPaint.setXfermode(null);
+        }
     }
 
     @Override

@@ -121,6 +121,15 @@
                 android:text="이동" />
 
             <ImageView
+                android:src="@drawable/fp_b_eraser"
+                android:layout_marginLeft="4dp"
+                android:padding="3dp"
+                android:id="@+id/iv_eraser"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="이동" />
+
+            <ImageView
                 android:src="@drawable/ic_queue_play_next_24px"
                 android:layout_marginLeft="4dp"
                 android:padding="3dp"
