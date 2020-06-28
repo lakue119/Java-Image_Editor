@@ -20,11 +20,14 @@
         <activity android:name=".ActivityTest"></activity>
         <activity
             android:name=".ActivityPaintBrush"
-            android:theme="@style/Theme.Transparent" />
-        <activity android:name=".ActivityEditImage" />
+            android:theme="@style/Theme.Transparent"
+            android:configChanges="screenSize|orientation" />
+        <activity android:name=".ActivityEditImage"
+            android:configChanges="screenSize|orientation" />
         <activity android:name=".ActivityCrop" />
         <activity android:name=".Permission.PermissionActivity" />
-        <activity android:name=".ActivityFeelingUpload" />
+        <activity android:name=".ActivityFeelingUpload"
+            android:configChanges="screenSize|orientation" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

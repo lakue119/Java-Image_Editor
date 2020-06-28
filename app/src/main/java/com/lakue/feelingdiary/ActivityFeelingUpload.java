@@ -1,9 +1,13 @@
 package com.lakue.feelingdiary;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -24,25 +28,23 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.lakue.feelingdiary.Adapter.RecyclerViewNormalAdapter;
+import com.lakue.feelingdiary.Base.BaseActivity;
+import com.lakue.feelingdiary.Items.ItemEmoji;
 import com.lakue.feelingdiary.Permission.ModulePermission;
 import com.lakue.feelingdiary.Permission.PermissionListener;
 import com.lakue.feelingdiary.StickerView.BitmapStickerIcon;
@@ -52,6 +54,8 @@ import com.lakue.feelingdiary.StickerView.FlipHorizontallyEvent;
 import com.lakue.feelingdiary.StickerView.StickerView;
 import com.lakue.feelingdiary.StickerView.TextSticker;
 import com.lakue.feelingdiary.StickerView.ZoomIconEvent;
+import com.lakue.feelingdiary.listener.OnEmojiClickListener;
+import com.lakue.feelingdiary.type.RecyclerViewType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -65,11 +69,12 @@ import java.util.List;
 
 public class ActivityFeelingUpload extends BaseActivity {
 
-    ImageView iv_add_picture, iv_add_text, iv_change_background, iv_paint_brush;
+    ImageView iv_add_picture, iv_add_text, iv_change_background, iv_paint_brush, iv_emoji;
     PhotoView photoView;
     ConstraintLayout constlayout;
     FrameLayout framelayout;
     StickerView stickerView;
+    RecyclerView rv_emoji;
 //    ImageView iv_image;
     Boolean isCamera = false;
 
@@ -79,6 +84,8 @@ public class ActivityFeelingUpload extends BaseActivity {
     String image;
 
     Boolean isBackground = false;
+
+    RecyclerViewNormalAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +98,32 @@ public class ActivityFeelingUpload extends BaseActivity {
         stickerView = findViewById(R.id.sticker_view);
         photoView = findViewById(R.id.photoView);
         iv_paint_brush = findViewById(R.id.iv_paint_brush);
+        rv_emoji = findViewById(R.id.rv_emoji);
+        iv_emoji = findViewById(R.id.iv_emoji);
 //        framelayout = findViewById(R.id.framelayout);
 //        iv_image = findViewById(R.id.iv_image);
+        initRecyclerView();
+
+        iv_emoji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(rv_emoji.isShown()){
+                    rv_emoji.setVisibility(View.GONE);
+                } else{
+                    rv_emoji.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
 
         iv_add_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isBackground = false;
                 show();
+                if(rv_emoji.isShown()){
+                    rv_emoji.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -106,6 +131,9 @@ public class ActivityFeelingUpload extends BaseActivity {
             @Override
             public void onClick(View v) {
                 isBackground = true;
+                if(rv_emoji.isShown()){
+                    rv_emoji.setVisibility(View.GONE);
+                }
                 show();
             }
         });
@@ -115,6 +143,9 @@ public class ActivityFeelingUpload extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ActivityPaintBrush.class);
                 startActivityForResult(intent, Define.REQUEST_CODE_PAINT_BRUSH);
+                if(rv_emoji.isShown()){
+                    rv_emoji.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -135,9 +166,117 @@ public class ActivityFeelingUpload extends BaseActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 stickerView.hideCurrentIcon();
+                if(rv_emoji.isShown()){
+                    rv_emoji.setVisibility(View.GONE);
+                }
                 return false;
             }
         });
+
+        stickerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(rv_emoji.isShown()){
+                    rv_emoji.setVisibility(View.GONE);
+                }
+                return false;
+            }
+        });
+    }
+
+    private void initRecyclerView(){
+        int numberOfColumns = 10; // 한줄에 3개의 컬럼을 추가합니다.
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, numberOfColumns);
+
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rv_emoji.setLayoutManager(mGridLayoutManager);
+
+        adapter = new RecyclerViewNormalAdapter(RecyclerViewType.EMOJI);
+        rv_emoji.setAdapter(adapter);
+
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_100));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_alien));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_angry_devil));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_broken_heart));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_clown));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_cold));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_devil));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_eye));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_eyes));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_ghost));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_happy));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_heart_eyes));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_kiss));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_leap_kiss));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_loudly));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_magic_hat));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_money));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_muscle));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_nerd));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_new_thinking));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_paw));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_poop));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_revolving_pink_heart));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_robot));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_skull));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_skulls));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_slightly));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_sweet_water));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_thinking));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_two_pink_heart));
+        adapter.addItem(new ItemEmoji(R.drawable.emoji_unamused));
+
+        adapter.setOnEmojiClickListener(new OnEmojiClickListener() {
+            @Override
+            public void onEmojiClick(int emoji) {
+                if(rv_emoji.isShown()){
+                    rv_emoji.setVisibility(View.GONE);
+                }
+
+                BitmapStickerIcon deleteIcon = new BitmapStickerIcon(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.sticker_ic_close_white_18dp),
+                        BitmapStickerIcon.LEFT_TOP);
+                deleteIcon.setIconEvent(new DeleteIconEvent());
+
+                BitmapStickerIcon zoomIcon = new BitmapStickerIcon(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.sticker_ic_scale_white_18dp),
+                        BitmapStickerIcon.RIGHT_BOTOM);
+                zoomIcon.setIconEvent(new ZoomIconEvent());
+
+                BitmapStickerIcon flipIcon = new BitmapStickerIcon(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.sticker_ic_flip_white_18dp),
+                        BitmapStickerIcon.RIGHT_TOP);
+                flipIcon.setIconEvent(new FlipHorizontallyEvent());
+
+                Drawable d = getResources().getDrawable(emoji);
+
+                stickerView.setIcons(Arrays.asList(deleteIcon, zoomIcon, flipIcon));
+                stickerView.setLocked(false);
+                stickerView.setConstrained(true);
+                stickerView.addSticker(new DrawableSticker(d));
+            }
+        });
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
     }
 
     private void getCropImage(byte[] byteArray, Boolean crop, List<Point> points){

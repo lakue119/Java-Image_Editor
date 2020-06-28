@@ -1,7 +1,6 @@
 package com.lakue.feelingdiary;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +10,8 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
+import com.lakue.feelingdiary.Base.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

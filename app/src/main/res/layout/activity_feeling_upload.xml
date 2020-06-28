@@ -7,101 +7,117 @@
     android:background="#111111"
     tools:context=".ActivityFeelingUpload">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.lakue.feelingdiary.StickerView.StickerView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/sticker_view"
-            app:bringToFrontCurrentSticker="true"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            app:showBorder="true"
-            app:showIcons="true">
-
-            <com.github.chrisbanes.photoview.PhotoView
-                android:id="@+id/photoView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                />
-
-        </com.lakue.feelingdiary.StickerView.StickerView>
-
-<!--        <FrameLayout-->
-<!--            android:id="@+id/framelayout"-->
-<!--            android:layout_weight="1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"/>-->
-
-
-<!--        <ImageView-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="#00ffffff"-->
-<!--            android:id="@+id/iv_image"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"/>-->
-
         <LinearLayout
-            android:padding="8dp"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:padding="3dp"
-                android:src="@drawable/ic_add_a_photo_24px"
-                android:id="@+id/iv_add_picture"
-                android:text="사진 가져오기 "
-                android:layout_width="36dp"
-                android:layout_height="36dp"/>
+            <com.lakue.feelingdiary.StickerView.StickerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/sticker_view"
+                app:bringToFrontCurrentSticker="true"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:showBorder="true"
+                app:showIcons="true">
 
-            <ImageView
-                android:layout_marginLeft="4dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_title_24px"
-                android:id="@+id/iv_add_text"
-                android:text="텍스트 가져오기"
-                android:layout_width="36dp"
-                android:layout_height="36dp"/>
+                <com.github.chrisbanes.photoview.PhotoView
+                    android:id="@+id/photoView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
-            <ImageView
-                android:layout_marginLeft="4dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_image_24px"
-                android:id="@+id/iv_change_background"
-                android:text="배경화면 변경"
-                android:layout_width="36dp"
-                android:layout_height="36dp"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    />
 
-            <ImageView
-                android:layout_marginLeft="4dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_create_24px"
-                android:id="@+id/iv_paint_brush"
-                android:text="그리기"
-                android:layout_width="36dp"
-                android:layout_height="36dp"/>
+            </com.lakue.feelingdiary.StickerView.StickerView>
 
-            <ImageView
-                android:layout_marginLeft="4dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_tag_faces_24px"
-                android:id="@+id/iv_imoge"
-                android:text="이모지"
-                android:layout_width="36dp"
-                android:layout_height="36dp"/>
+            <!--        <FrameLayout-->
+            <!--            android:id="@+id/framelayout"-->
+            <!--            android:layout_weight="1"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="match_parent"/>-->
+
+
+            <!--        <ImageView-->
+            <!--            android:layout_weight="1"-->
+            <!--            android:background="#00ffffff"-->
+            <!--            android:id="@+id/iv_image"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="match_parent"/>-->
+
+            <LinearLayout
+                android:padding="8dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:padding="3dp"
+                    android:src="@drawable/ic_add_a_photo_24px"
+                    android:id="@+id/iv_add_picture"
+                    android:text="사진 가져오기 "
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
+
+                <ImageView
+                    android:layout_marginLeft="4dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_title_24px"
+                    android:id="@+id/iv_add_text"
+                    android:text="텍스트 가져오기"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
+
+                <ImageView
+                    android:layout_marginLeft="4dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_image_24px"
+                    android:id="@+id/iv_change_background"
+                    android:text="배경화면 변경"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
+
+                <ImageView
+                    android:layout_marginLeft="4dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_create_24px"
+                    android:id="@+id/iv_paint_brush"
+                    android:text="그리기"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
+
+                <ImageView
+                    android:layout_marginLeft="4dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_tag_faces_24px"
+                    android:id="@+id/iv_emoji"
+                    android:text="이모지"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/rv_emoji"
+            android:layout_marginBottom="50dp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+    </FrameLayout>
+
+
 
 </LinearLayout>

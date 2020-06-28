@@ -17,6 +17,11 @@ public class DrawableSticker extends Sticker {
         realBounds = new Rect(0, 0, getWidth(), getHeight());
     }
 
+    public DrawableSticker(Drawable drawable, int width, int height) {
+        this.drawable = drawable;
+        realBounds = new Rect(0, 0, width, height);
+    }
+
     @NonNull @Override public Drawable getDrawable() {
         return drawable;
     }

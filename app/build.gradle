@@ -38,13 +38,14 @@ dependencies {
 
 
     //Glide 이미지변환
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     dependencies { implementation 'com.github.yukuku:ambilwarna:2.0.1' }
     implementation 'com.xw.repo:bubbleseekbar:3.20-lite'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
 repositories {
     mavenCentral()

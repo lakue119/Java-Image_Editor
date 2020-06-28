@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends BaseActivity{
+import com.lakue.feelingdiary.Base.BaseActivity;
+
+public class MainActivity extends BaseActivity {
 
     TextView tv_move_edit;
 
