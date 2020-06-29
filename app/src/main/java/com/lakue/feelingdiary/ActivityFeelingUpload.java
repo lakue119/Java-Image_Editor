@@ -6,7 +6,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
@@ -104,6 +103,7 @@ public class ActivityFeelingUpload extends BaseActivity {
 //        iv_image = findViewById(R.id.iv_image);
         initRecyclerView();
 
+
         iv_emoji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,16 +184,7 @@ public class ActivityFeelingUpload extends BaseActivity {
         });
     }
 
-    private void initRecyclerView(){
-        int numberOfColumns = 10; // 한줄에 3개의 컬럼을 추가합니다.
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, numberOfColumns);
-
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rv_emoji.setLayoutManager(mGridLayoutManager);
-
-        adapter = new RecyclerViewNormalAdapter(RecyclerViewType.EMOJI);
-        rv_emoji.setAdapter(adapter);
-
+    private void addEmojiItem(){
         adapter.addItem(new ItemEmoji(R.drawable.emoji_100));
         adapter.addItem(new ItemEmoji(R.drawable.emoji_alien));
         adapter.addItem(new ItemEmoji(R.drawable.emoji_angry_devil));
@@ -225,6 +216,22 @@ public class ActivityFeelingUpload extends BaseActivity {
         adapter.addItem(new ItemEmoji(R.drawable.emoji_thinking));
         adapter.addItem(new ItemEmoji(R.drawable.emoji_two_pink_heart));
         adapter.addItem(new ItemEmoji(R.drawable.emoji_unamused));
+
+        adapter.notifyDataSetChanged();
+    }
+
+    private void initRecyclerView(){
+        int numberOfColumns = 9; // 한줄에 3개의 컬럼을 추가합니다.
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, numberOfColumns);
+        mGridLayoutManager.setItemPrefetchEnabled(true);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rv_emoji.setLayoutManager(mGridLayoutManager);
+
+        adapter = new RecyclerViewNormalAdapter(RecyclerViewType.EMOJI);
+        adapter.setHasStableIds(true);
+        rv_emoji.setAdapter(adapter);
+
+        addEmojiItem();
 
         adapter.setOnEmojiClickListener(new OnEmojiClickListener() {
             @Override

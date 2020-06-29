@@ -57,6 +57,11 @@ public class RecyclerViewNormalAdapter extends RecyclerView.Adapter<BaseViewHold
 
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
     public void setOnEmojiClickListener(OnEmojiClickListener onEmojiClickListener) {
         this.onEmojiClickListener = onEmojiClickListener;
     }
