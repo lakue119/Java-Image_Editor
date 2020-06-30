@@ -14,12 +14,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/ll_footer"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical"></FrameLayout>
 
         <LinearLayout
             android:visibility="gone"
@@ -128,6 +128,15 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:text="이동" />
+
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_content_paste_24px"
+                android:id="@+id/iv_content"
+                android:text="파일첨부"
+                android:layout_width="36dp"
+                android:layout_height="36dp"/>
 
             <ImageView
                 android:src="@drawable/ic_queue_play_next_24px"

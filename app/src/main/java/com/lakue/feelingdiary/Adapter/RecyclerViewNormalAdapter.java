@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lakue.feelingdiary.Base.BaseItem;
 import com.lakue.feelingdiary.Base.BaseViewHolder;
 import com.lakue.feelingdiary.R;
-import com.lakue.feelingdiary.listener.OnEmojiClickListener;
+import com.lakue.feelingdiary.listener.OnItemClickListener;
 import com.lakue.feelingdiary.type.RecyclerViewType;
+import com.lakue.feelingdiary.viewholder.ViewHolderContent;
 import com.lakue.feelingdiary.viewholder.ViewHolderEmoji;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class RecyclerViewNormalAdapter extends RecyclerView.Adapter<BaseViewHold
     RecyclerViewType type;
     ArrayList<BaseItem> items = new ArrayList<>();
 
-    OnEmojiClickListener onEmojiClickListener;
+    OnItemClickListener onItemClickListener;
 
     public RecyclerViewNormalAdapter(RecyclerViewType type){
         this.type = type;
@@ -35,6 +36,9 @@ public class RecyclerViewNormalAdapter extends RecyclerView.Adapter<BaseViewHold
         if(type == RecyclerViewType.EMOJI){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_emoji,parent,false);
             return new ViewHolderEmoji(view);
+        } else  if(type == RecyclerViewType.CONTENT){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_content,parent,false);
+            return new ViewHolderContent(view);
         }
 
         return null;
@@ -45,15 +49,27 @@ public class RecyclerViewNormalAdapter extends RecyclerView.Adapter<BaseViewHold
         if(holder instanceof ViewHolderEmoji){
             ViewHolderEmoji viewHolderEmoji = (ViewHolderEmoji)holder;
             viewHolderEmoji.onBind(items.get(position),position);
-            viewHolderEmoji.setOnEmojiClickListener(new OnEmojiClickListener() {
+            viewHolderEmoji.setOnItemClickListener(new OnItemClickListener() {
                 @Override
-                public void onEmojiClick(int emoji) {
-                    if(onEmojiClickListener != null){
-                        onEmojiClickListener.onEmojiClick(emoji);
+                public void onItemClick(View view, int item) {
+                    if(onItemClickListener != null){
+                        onItemClickListener.onItemClick(view, item);
+                    }
+                }
+            });
+        } else  if(holder instanceof ViewHolderContent){
+            ViewHolderContent viewHolderContent = (ViewHolderContent)holder;
+            viewHolderContent.onBind(items.get(position),position);
+            viewHolderContent.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int item) {
+                    if(onItemClickListener != null){
+                        onItemClickListener.onItemClick(view, item);
                     }
                 }
             });
         }
+
 
     }
 
@@ -62,8 +78,8 @@ public class RecyclerViewNormalAdapter extends RecyclerView.Adapter<BaseViewHold
         return super.getItemId(position);
     }
 
-    public void setOnEmojiClickListener(OnEmojiClickListener onEmojiClickListener) {
-        this.onEmojiClickListener = onEmojiClickListener;
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override

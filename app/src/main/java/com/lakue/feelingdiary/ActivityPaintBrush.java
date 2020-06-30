@@ -1,5 +1,6 @@
 package com.lakue.feelingdiary;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -45,12 +48,14 @@ public class ActivityPaintBrush extends AppCompatActivity {
     ImageView iv_brush;
     ImageView iv_save;
     ImageView iv_eraser;
+    ImageView iv_content;
     RadioButton rBtn1;
     RadioButton rBtn2;
     RadioButton rBtn3;
     LinearLayout ll_bold_slider;
     LinearLayout ll_brush;
     BubbleSeekBar seekbar;
+    FrameLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +63,7 @@ public class ActivityPaintBrush extends AppCompatActivity {
         setContentView(R.layout.activity_paint_brush);
         view = new MyPaintView(this);
 
-        LinearLayout container = findViewById(R.id.container);
+        container = findViewById(R.id.container);
         Resources res = getResources();
 
 
@@ -71,8 +76,6 @@ public class ActivityPaintBrush extends AppCompatActivity {
         ll_bold_slider = findViewById(R.id.ll_bold_slider);
         seekbar = findViewById(R.id.seekbar);
         ll_brush = findViewById(R.id.ll_brush);
-        iv_eraser = findViewById(R.id.iv_eraser);
-
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -95,6 +98,17 @@ public class ActivityPaintBrush extends AppCompatActivity {
         iv_border=findViewById(R.id.iv_border);
         iv_brush = findViewById(R.id.iv_brush);
         iv_save = findViewById(R.id.iv_save);
+        iv_eraser = findViewById(R.id.iv_eraser);
+        iv_content = findViewById(R.id.iv_content);
+
+        iv_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ActivitySelectContent.class);
+                startActivityForResult(intent, Define.REQUEST_CODE_CONTENT);
+            }
+        });
+
         iv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -278,4 +292,19 @@ public class ActivityPaintBrush extends AppCompatActivity {
         colorPicker.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            if(requestCode == Define.REQUEST_CODE_CONTENT){
+                int content = data.getIntExtra("EXTRA_CONTENT",0);
+
+                ImageView imageView = new ImageView(this);
+                Glide.with(this).load(content).into(imageView);
+                container.addView(imageView);
+
+            }
+        }
+    }
 }

@@ -8,33 +8,34 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.lakue.feelingdiary.Base.BaseItem;
 import com.lakue.feelingdiary.Base.BaseViewHolder;
+import com.lakue.feelingdiary.Items.ItemContent;
 import com.lakue.feelingdiary.Items.ItemEmoji;
 import com.lakue.feelingdiary.R;
 import com.lakue.feelingdiary.listener.OnItemClickListener;
 
-public class ViewHolderEmoji extends BaseViewHolder {
+public class ViewHolderContent  extends BaseViewHolder {
 
-    ImageView iv_emoji;
-    ItemEmoji itemEmoji;
+    ImageView iv_content;
+    ItemContent itemContent;
 
     OnItemClickListener onItemClickListener;
 
-    public ViewHolderEmoji(@NonNull View itemView) {
+    public ViewHolderContent(@NonNull View itemView) {
         super(itemView);
-        iv_emoji = itemView.findViewById(R.id.iv_emoji);
-        iv_emoji.setOnClickListener(new View.OnClickListener() {
+        iv_content = itemView.findViewById(R.id.iv_content);
+        iv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(onItemClickListener != null){
-                    onItemClickListener.onItemClick(v, itemEmoji.getEmoji());
+                    onItemClickListener.onItemClick(v, itemContent.getContent());
                 }
             }
         });
     }
 
     public void onBind(BaseItem item, int position){
-        itemEmoji = (ItemEmoji)item;
-        Glide.with(itemView.getContext()).load(itemEmoji.getEmoji()).into(iv_emoji);
+        itemContent = (ItemContent)item;
+        Glide.with(itemView.getContext()).load(itemContent.getContent()).into(iv_content);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

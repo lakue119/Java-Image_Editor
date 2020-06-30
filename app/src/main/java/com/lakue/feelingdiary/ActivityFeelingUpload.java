@@ -53,7 +53,7 @@ import com.lakue.feelingdiary.StickerView.FlipHorizontallyEvent;
 import com.lakue.feelingdiary.StickerView.StickerView;
 import com.lakue.feelingdiary.StickerView.TextSticker;
 import com.lakue.feelingdiary.StickerView.ZoomIconEvent;
-import com.lakue.feelingdiary.listener.OnEmojiClickListener;
+import com.lakue.feelingdiary.listener.OnItemClickListener;
 import com.lakue.feelingdiary.type.RecyclerViewType;
 
 import java.io.ByteArrayOutputStream;
@@ -68,7 +68,7 @@ import java.util.List;
 
 public class ActivityFeelingUpload extends BaseActivity {
 
-    ImageView iv_add_picture, iv_add_text, iv_change_background, iv_paint_brush, iv_emoji;
+    ImageView iv_add_picture, iv_add_text, iv_change_background, iv_paint_brush, iv_emoji, iv_content;
     PhotoView photoView;
     ConstraintLayout constlayout;
     FrameLayout framelayout;
@@ -99,10 +99,18 @@ public class ActivityFeelingUpload extends BaseActivity {
         iv_paint_brush = findViewById(R.id.iv_paint_brush);
         rv_emoji = findViewById(R.id.rv_emoji);
         iv_emoji = findViewById(R.id.iv_emoji);
+        iv_content = findViewById(R.id.iv_content);
 //        framelayout = findViewById(R.id.framelayout);
 //        iv_image = findViewById(R.id.iv_image);
         initRecyclerView();
 
+        iv_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ActivitySelectContent.class);
+                startActivityForResult(intent, Define.REQUEST_CODE_CONTENT);
+            }
+        });
 
         iv_emoji.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,8 +224,6 @@ public class ActivityFeelingUpload extends BaseActivity {
         adapter.addItem(new ItemEmoji(R.drawable.emoji_thinking));
         adapter.addItem(new ItemEmoji(R.drawable.emoji_two_pink_heart));
         adapter.addItem(new ItemEmoji(R.drawable.emoji_unamused));
-
-        adapter.notifyDataSetChanged();
     }
 
     private void initRecyclerView(){
@@ -233,9 +239,9 @@ public class ActivityFeelingUpload extends BaseActivity {
 
         addEmojiItem();
 
-        adapter.setOnEmojiClickListener(new OnEmojiClickListener() {
+        adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onEmojiClick(int emoji) {
+            public void onItemClick(View view, int emoji) {
                 if(rv_emoji.isShown()){
                     rv_emoji.setVisibility(View.GONE);
                 }
@@ -414,7 +420,29 @@ public class ActivityFeelingUpload extends BaseActivity {
 
         getMaxMinData(points);
 
-        Bitmap bm1 = Bitmap.createBitmap(bitmap, (int)minX-40, (int)minY-40, (int)maxX - (int)minX +80, (int)maxY - (int)minY+80);
+        int x = 0;
+        int y = 0;
+        int width = 0;
+        int height = 0;
+
+        if((int)minX-40 > 0){
+            x = (int)minX-40;
+        }
+
+        if((int)minY-40 > 0){
+            y = (int)minY-40;
+        }
+
+        if((int)maxX - (int)minX +80 > 0){
+            width = (int)maxX - (int)minX +80;
+        }
+
+        if((int)maxY - (int)minY+80 > 0){
+            height = (int)maxY - (int)minY+80;
+        }
+
+
+        Bitmap bm1 = Bitmap.createBitmap(bitmap, x, y, width, height);
 
         BitmapStickerIcon deleteIcon = new BitmapStickerIcon(ContextCompat.getDrawable(this,
                 R.drawable.sticker_ic_close_white_18dp),
