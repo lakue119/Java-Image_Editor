@@ -433,12 +433,16 @@ public class ActivityFeelingUpload extends BaseActivity {
             y = (int)minY-40;
         }
 
-        if((int)maxX - (int)minX +80 > 0){
-            width = (int)maxX - (int)minX +80;
+        if((int)maxX - (int)minX + 80 < bitmap.getWidth()){
+            width = (int)maxX - (int)minX + 80;
+        } else {
+            width = bitmap.getWidth();
         }
 
-        if((int)maxY - (int)minY+80 > 0){
-            height = (int)maxY - (int)minY+80;
+        if((int)maxY - (int)minY+80 < bitmap.getHeight()){
+            height = (int)maxY - (int)minY + 80;
+        } else {
+            height = bitmap.getHeight();
         }
 
 

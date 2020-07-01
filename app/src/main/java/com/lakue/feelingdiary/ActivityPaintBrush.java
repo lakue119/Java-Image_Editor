@@ -300,9 +300,14 @@ public class ActivityPaintBrush extends AppCompatActivity {
             if(requestCode == Define.REQUEST_CODE_CONTENT){
                 int content = data.getIntExtra("EXTRA_CONTENT",0);
 
-                ImageView imageView = new ImageView(this);
-                Glide.with(this).load(content).into(imageView);
-                container.addView(imageView);
+                Bitmap bigPictureBitmap  = BitmapFactory.decodeResource(getApplicationContext().getResources(), content);
+
+                view.setmBitmap(bigPictureBitmap);
+//                ImageView imageView = new ImageView(this);
+//                Glide.with(this).load(content).into(imageView);
+//                container.addView(imageView);
+
+
 
             }
         }

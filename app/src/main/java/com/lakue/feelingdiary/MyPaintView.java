@@ -90,6 +90,29 @@ public class MyPaintView extends View {
         mCanvas = canvas;
     }
 
+    public void setmBitmap(Bitmap bitmap){
+        mBitmap = null;
+        mCanvas = null;
+
+        mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+        Canvas canvas = new Canvas();
+        canvas.setBitmap(mBitmap);
+        canvas.drawColor(Color.TRANSPARENT);
+
+        mCanvas = canvas;
+
+        Point point = new Point();
+        point.x = 0;
+        point.y = 0;
+        points.add(point);
+
+        Point point1 = new Point();
+        point1.x = mBitmap.getWidth();
+        point1.y = mBitmap.getHeight();
+        points.add(point1);
+    }
+
     public Bitmap getmBitmap() {
         return mBitmap;
     }
