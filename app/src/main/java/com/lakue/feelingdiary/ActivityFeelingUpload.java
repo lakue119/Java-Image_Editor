@@ -68,7 +68,7 @@ import java.util.List;
 
 public class ActivityFeelingUpload extends BaseActivity {
 
-    ImageView iv_add_picture, iv_add_text, iv_change_background, iv_paint_brush, iv_emoji, iv_content;
+    ImageView iv_add_picture, iv_add_text, iv_change_background, iv_paint_brush, iv_emoji, iv_content, iv_save;
     PhotoView photoView;
     ConstraintLayout constlayout;
     FrameLayout framelayout;
@@ -100,9 +100,17 @@ public class ActivityFeelingUpload extends BaseActivity {
         rv_emoji = findViewById(R.id.rv_emoji);
         iv_emoji = findViewById(R.id.iv_emoji);
         iv_content = findViewById(R.id.iv_content);
+        iv_save = findViewById(R.id.iv_save);
 //        framelayout = findViewById(R.id.framelayout);
 //        iv_image = findViewById(R.id.iv_image);
         initRecyclerView();
+
+        iv_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("QKLWJRKLQWJRLK",stickerView.getStickerData().toString());
+            }
+        });
 
         iv_content.setOnClickListener(new View.OnClickListener() {
             @Override

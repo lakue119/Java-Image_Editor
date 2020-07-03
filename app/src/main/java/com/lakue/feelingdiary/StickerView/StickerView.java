@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -23,6 +24,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewCompat;
 
+import com.lakue.feelingdiary.Items.StickerData;
+import com.lakue.feelingdiary.Point;
 import com.lakue.feelingdiary.R;
 
 import java.io.File;
@@ -185,6 +188,40 @@ public class StickerView extends FrameLayout {
             stickerRect.right = right;
             stickerRect.bottom = bottom;
         }
+    }
+
+    public ArrayList<StickerData> getStickerData(){
+        ArrayList<StickerData> stickerDatas = new ArrayList<>();
+        if(stickers.size() > 0){
+            for(int i = 0;i<stickers.size();i++){
+                StickerData stickerData = new StickerData();
+                stickerData.setIdx(i);
+                stickerData.setPosition(i);
+                stickerData.setHeight(stickers.get(i).getHeight());
+                stickerData.setWidth(stickers.get(i).getWidth());
+                stickerData.setD(stickers.get(i).getDrawable());
+                stickerData.setMatrix(stickers.get(i).getMatrix());
+                stickerDatas.add(stickerData);
+            }
+        }
+
+        return stickerDatas;
+    }
+
+    public int getStickerHeight(){
+        return this.getHeight();
+    }
+
+    public Point getPoint(){
+        Point p = new Point();
+        p.dx = this.getLeft();
+        p.dy = this.getTop();
+        return p;
+    }
+
+    public Drawable getBitmap(){
+        return stickers.get(0).getDrawable();
+
     }
 
     @Override protected void dispatchDraw(Canvas canvas) {

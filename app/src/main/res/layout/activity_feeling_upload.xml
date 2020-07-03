@@ -115,7 +115,14 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"/>
 
-
+                <ImageView
+                    android:layout_marginLeft="4dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_sd_storage_24px"
+                    android:id="@+id/iv_save"
+                    android:text="저장"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
 
             </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.lakue.feelingdiary.StickerView;
 
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
