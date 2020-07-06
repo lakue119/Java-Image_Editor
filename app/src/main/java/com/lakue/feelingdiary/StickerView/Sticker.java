@@ -2,7 +2,6 @@ package com.lakue.feelingdiary.StickerView;
 
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -27,15 +26,47 @@ public abstract class Sticker {
         int BOTTOM = 1 << 4;
     }
 
-    private final float[] matrixValues = new float[9];
-    private final float[] unrotatedWrapperCorner = new float[8];
-    private final float[] unrotatedPoint = new float[2];
+    private float[] matrixValues = new float[9];
+    private float[] unrotatedWrapperCorner = new float[8];
+    private float[] unrotatedPoint = new float[2];
     private final float[] boundPoints = new float[8];
-    private final float[] mappedBounds = new float[8];
+    private float[] mappedBounds = new float[8];
     private final RectF trappedRect = new RectF();
     private final Matrix matrix = new Matrix();
     private boolean isFlippedHorizontally;
     private boolean isFlippedVertically;
+
+    public float[] getMetrixValue(){
+        return matrixValues;
+    }
+
+    public void setMetrixValue(float[] matrixValues){
+        this.matrixValues = matrixValues;
+    }
+
+    public float[] getUnrotatedWrapperCorner(){
+        return unrotatedWrapperCorner;
+    }
+
+    public void setUnrotatedWrapperCorner(float[] unrotatedWrapperCorner){
+        this.unrotatedWrapperCorner = unrotatedWrapperCorner;
+    }
+
+    public float[] getUnrotatedPoint(){
+        return unrotatedPoint;
+    }
+
+    public void setUnrotatedPoint(float[] unrotatedPoint){
+        this.unrotatedPoint = unrotatedPoint;
+    }
+
+    public float[] getMappedBounds(){
+        return mappedBounds;
+    }
+
+    public void setMappedBounds(float[] mappedBounds){
+        this.mappedBounds = mappedBounds;
+    }
 
     public boolean isFlippedHorizontally() {
         return isFlippedHorizontally;
@@ -84,6 +115,7 @@ public abstract class Sticker {
     }
 
     public void getBoundPoints(@NonNull float[] points) {
+        //ddd
         if (!isFlippedHorizontally) {
             if (!isFlippedVertically) {
                 points[0] = 0f;
@@ -140,6 +172,7 @@ public abstract class Sticker {
     }
 
     public void getMappedPoints(@NonNull float[] dst, @NonNull float[] src) {
+        //ddd
         matrix.mapPoints(dst, src);
     }
 
@@ -170,6 +203,7 @@ public abstract class Sticker {
     }
 
     public void getCenterPoint(@NonNull PointF dst) {
+        //ddd
         dst.set(getWidth() * 1f / 2, getHeight() * 1f / 2);
     }
 
@@ -181,6 +215,7 @@ public abstract class Sticker {
 
     public void getMappedCenterPoint(@NonNull PointF dst, @NonNull float[] mappedPoints,
                                      @NonNull float[] src) {
+        //ddd
         getCenterPoint(dst);
         src[0] = dst.x;
         src[1] = dst.y;

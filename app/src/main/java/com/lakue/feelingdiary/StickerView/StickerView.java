@@ -201,27 +201,16 @@ public class StickerView extends FrameLayout {
                 stickerData.setWidth(stickers.get(i).getWidth());
                 stickerData.setD(stickers.get(i).getDrawable());
                 stickerData.setMatrix(stickers.get(i).getMatrix());
+                stickerData.setMatrixValues(stickers.get(i).getMetrixValue());
+                stickerData.setUnrotatedWrapperCorner(stickers.get(i).getUnrotatedWrapperCorner());
+                stickerData.setUnrotatedPoint(stickers.get(i).getUnrotatedPoint());
+                stickerData.setMappedBounds(stickers.get(i).getMappedBounds());
+                stickerData.setBoundPoints(stickers.get(i).getBoundPoints());
                 stickerDatas.add(stickerData);
             }
         }
 
         return stickerDatas;
-    }
-
-    public int getStickerHeight(){
-        return this.getHeight();
-    }
-
-    public Point getPoint(){
-        Point p = new Point();
-        p.dx = this.getLeft();
-        p.dy = this.getTop();
-        return p;
-    }
-
-    public Drawable getBitmap(){
-        return stickers.get(0).getDrawable();
-
     }
 
     @Override protected void dispatchDraw(Canvas canvas) {

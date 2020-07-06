@@ -50,6 +50,7 @@ import com.lakue.feelingdiary.StickerView.BitmapStickerIcon;
 import com.lakue.feelingdiary.StickerView.DeleteIconEvent;
 import com.lakue.feelingdiary.StickerView.DrawableSticker;
 import com.lakue.feelingdiary.StickerView.FlipHorizontallyEvent;
+import com.lakue.feelingdiary.StickerView.Sticker;
 import com.lakue.feelingdiary.StickerView.StickerView;
 import com.lakue.feelingdiary.StickerView.TextSticker;
 import com.lakue.feelingdiary.StickerView.ZoomIconEvent;
@@ -109,6 +110,22 @@ public class ActivityFeelingUpload extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Log.i("QKLWJRKLQWJRLK",stickerView.getStickerData().toString());
+
+                Drawable drawable = stickerView.getStickerData().get(0).getD();
+
+//                stickerView.setIcons(Arrays.asList(deleteIcon, zoomIcon, flipIcon));
+                stickerView.setLocked(false);
+                stickerView.setConstrained(true);
+
+                Sticker sticker = new DrawableSticker(drawable);
+                sticker.setMetrixValue(stickerView.getStickerData().get(0).getMatrixValues());
+                sticker.setUnrotatedWrapperCorner(stickerView.getStickerData().get(0).getUnrotatedWrapperCorner());
+                sticker.setUnrotatedPoint(stickerView.getStickerData().get(0).getUnrotatedPoint());
+                sticker.setMappedBounds(stickerView.getStickerData().get(0).getMappedBounds());
+                sticker.setMetrixValue(stickerView.getStickerData().get(0).getMatrixValues());
+                sticker.setMetrixValue(stickerView.getStickerData().get(0).getMatrixValues());
+
+                stickerView.addSticker(new DrawableSticker(drawable));
             }
         });
 
