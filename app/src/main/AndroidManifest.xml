@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lakue.feelingdiary">
+    package="com.lakue.imageEditor">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,32 +17,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityContentDecorate"></activity>
-        <activity android:name=".ActivitySelectContent" />
-        <activity android:name=".ActivityTest" />
+        <activity android:name="com.lakue.imageEditor.ActivityContentDecorate"></activity>
+        <activity android:name="com.lakue.imageEditor.ActivitySelectContent" />
+        <activity android:name="com.lakue.imageEditor.ActivityTest" />
         <activity
-            android:name=".ActivityPaintBrush"
+            android:name="com.lakue.imageEditor.ActivityPaintBrush"
             android:configChanges="screenSize|orientation"
             android:theme="@style/Theme.Transparent" />
         <activity
-            android:name=".ActivityEditImage"
+            android:name="com.lakue.imageEditor.ActivityEditImage"
             android:configChanges="screenSize|orientation" />
         <activity android:name=".ActivityCrop" />
-        <activity android:name=".Permission.PermissionActivity" />
+        <activity android:name="com.lakue.imageEditor.Permission.PermissionActivity" />
         <activity
-            android:name=".ActivityFeelingUpload"
-            android:configChanges="screenSize|orientation" />
-        <activity android:name=".MainActivity">
+            android:name="com.lakue.imageEditor.ActivityFeelingUpload"
+            android:configChanges="screenSize|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.lakue.imageEditor.MainActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.lakue.feelingdiary"
+            android:authorities="com.lakue.imageEditor"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

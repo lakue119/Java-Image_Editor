@@ -14,7 +14,7 @@
 
     </ImageView>
 
-    <com.lakue.feelingdiary.SomeView
+    <com.lakue.imageEditor.SomeView
         android:id="@+id/someView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
